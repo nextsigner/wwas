@@ -67,8 +67,8 @@ Item{
     }
 
     Component.onCompleted: {
-        console.log('Archivo Unik Settings: '+r.url)
-        if(!unik.fileExist(r.url)){
+        console.log('Archivo Unik Settings: '+pws+'/conf-'+r.url)
+        if(!unik.fileExist(pws+'/conf-'+r.url)){
             console.log('Archivo Unik Settings inexistente.')
             setCfgFile()
         }else{
@@ -80,7 +80,7 @@ Item{
     }
     function getCfgFile(){
         //console.log('getCfgFile()...')
-        var unikCfgFile=r.url
+        var unikCfgFile=pws+'/conf-'+r.url
         //console.log('unikCfgFile: '+unikCfgFile)
         var unikCfgFileData=unik.getFile(unikCfgFile)
         //console.log('unikCfgFileData: '+unikCfgFileData)
@@ -112,7 +112,7 @@ Item{
     }
 
     function setCfgFile(){
-        var unikCfgFile=r.url
+        var unikCfgFile=pws+'/conf-'+r.url
         //console.log('unikCfgFile: '+unikCfgFile)
         var unikCfgFileData=unik.getFile(unikCfgFile)
         //console.log('1: url: '+r.url+' unikCfgFileData: '+unikCfgFileData)

@@ -36,7 +36,7 @@ ApplicationWindow {
     FontLoader {name: "FontAwesome";source: "qrc:/fontawesome-webfont.ttf";}
     USettings{
         id: unikSettings
-        url:pws+'/'+app.moduleName
+        url: app.moduleName
         Component.onCompleted: {
             currentNumColor=0
             let mc0=defaultColors.split('|')
