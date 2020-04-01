@@ -2,7 +2,7 @@
 
 ## Modo de Uso
 
-* Descargar Unik Qml Engine desde el sitio [http://www.unikode.org/p/download.html](Unikode.org)
+* Descargar Unik Qml Engine desde el sitio [Unikode.org](http://www.unikode.org/p/download.html)
 * Una vez ejecutado el módulo por defecto de Unik llamado Unik-Tools, allí buscar esta aplicación en la lista de aplicaciones disponibles e instalar.
 
 ## Más información
