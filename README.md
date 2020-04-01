@@ -1,6 +1,6 @@
 # Whatsapp Web Auto Speak 
 
-[screenshot]:screenshot.png
+[screenshot]:https://github.com/adam-p/markdown-here/raw/master/screenshot.png
 
 ## Modo de Uso
 
