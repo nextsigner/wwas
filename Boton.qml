@@ -6,7 +6,7 @@ Item {
     property alias h: raiz.height
     property alias t: txt.text
     property alias c: txt.color
-    property string b:'red'
+    property string b:app.c2
     property alias f: txt.font.family
     property int r:6
     property alias d: tip.text
