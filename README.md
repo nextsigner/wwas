@@ -1,6 +1,6 @@
 # Whatsapp Web Auto Speak 
 
-![screenshot]:https://github.com/nextsigner/raw/master/screenshot.png
+![screenshot]:https://github.com/nextsigner/wwas/blob/master/screenshot.png
 
 ## Modo de Uso
 
