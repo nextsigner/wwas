@@ -10,6 +10,7 @@ Item {
     property string url
     property alias userAgent: wep.httpUserAgent
     property alias webEngineView: wv
+    property real zoomFactor: 1.0
     onUrlChanged: wv.url=url
     Rectangle{
         id: xTiUrl
@@ -53,6 +54,7 @@ Item {
         url:raiz.url
         profile: defaultProfile
         focus: true
+        zoomFactor: raiz.zoomFactor
         property string linkContextRequested
         property QtObject defaultProfile: WebEngineProfile {
             id: wep

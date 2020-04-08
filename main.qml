@@ -14,9 +14,11 @@ import QtWebEngine 1.4
 ApplicationWindow {
     id:app
     visible: true
-    width: 1400
-    height: 600
-    visibility:"Maximized"
+    width: 1280
+    height: 500
+    x:0
+    y:0
+    //visibility:"Maximized"
     title: 'WhatsappWeb Audio Speak'
     color: '#333'
     property string moduleName: 'wwas'
@@ -28,10 +30,15 @@ ApplicationWindow {
     property color c5: "#333333"
     property string tool: ""
 
-    property int uAudioIndex: -1
+    property int uAudioIndex: 0
+    property int statePlaying: 0
     property string url: 'https://chat.whatsapp.com/KJZca2JtTxU1i0J0Nk0qj9'
 
     property string colorBarra:'white'
+
+    property var audioDurs: []
+    property var audioDursPlayed: []
+    property real uDurPlaying
 
     FontLoader {name: "FontAwesome";source: "qrc:/fontawesome-webfont.ttf";}
     USettings{
@@ -154,6 +161,7 @@ ApplicationWindow {
                 width: parent.width
                 anchors.top: lineRH.bottom;
                 anchors.bottom: parent.bottom;
+                //zoomFactor: 0.5
                 visible: false//appSettings.dlvVisible;
             }
         }
@@ -161,21 +169,93 @@ ApplicationWindow {
     ULogView{id:uLogView}
     UWarnings{id:uWarnings}
     Timer{
-        id:tCheck
+        //id:tCheck
         running: true
         repeat: true
-        interval: 2000
+        interval: 6000
         onTriggered: {
-            //if(modWhatsapp.url==='https://web.whatsapp.com/')return
+            if(!tCheck.running){
+                //tCheck.interval=3000
+                tCheck.start()
+            }
+        }
+    }
+    Timer{
+        id:tResetAudioIndexPlaying
+        running: false
+        repeat: false
+        interval: 1000000
+        onTriggered: {
+            app.statePlaying=0
+        }
+    }
+
+    Timer{
+        id:tCheckUCant
+        running: true
+        repeat: true
+        interval: 500
+        onTriggered: {
             modWhatsapp.webEngineView.runJavaScript('document.getElementsByTagName(\'audio\').length', function(result) {
-                if(parseInt(result-1)!==app.uAudioIndex){
-                    app.uAudioIndex=parseInt(result-1)
-                    modWhatsapp.webEngineView.runJavaScript('document.getElementsByTagName(\'audio\')['+app.uAudioIndex+'].play()', function(result2) {
+                if(app.uCant!==result){
+                    app.cantDif=true
+                    app.statePlaying=result-1
+                }else{
+                    app.cantDif=false
+                }
+                if(app.uCant>result){
+                    app.uAudioIndex=0
+                }
+                app.uCant=result
+                app.audioDurs=[]
+                for(var i=0;i<result;i++){
+                    modWhatsapp.webEngineView.runJavaScript('document.getElementsByTagName(\'audio\')['+i+'].duration', function(result2) {
+                        app.audioDurs.push(result2)
                     });
                 }
             });
         }
     }
+    property int uCant: 0
+    property bool cantDif: false
+    Timer{
+        id:tCheck
+        running: true
+        repeat: true
+        interval: 1000
+        onTriggered: {
+            if(app.statePlaying===1){
+                console.log('app.statePlaying='+app.statePlaying)
+                return
+            }
+            var indexToPlay=app.uCant-1
+            if(app.uCant-1>app.uAudioIndex){
+                indexToPlay=app.audioDurs.indexOf(app.uDurPlaying)+1
+            }
+            info.text+=' rep: '+indexToPlay+'\n'
+            modWhatsapp.webEngineView.runJavaScript('document.getElementsByTagName(\'audio\')['+indexToPlay+'].duration', function(resultDur) {
+                if(resultDur!==app.uDurPlaying){
+                    tResetAudioIndexPlaying.stop()
+                    tResetAudioIndexPlaying.interval=parseInt(resultDur * 1000)+2000
+                    tResetAudioIndexPlaying.start()
+                    app.uDurPlaying=resultDur
+                    app.statePlaying=1
+                    modWhatsapp.webEngineView.runJavaScript('document.getElementsByTagName(\'audio\')['+indexToPlay+'].play()', function(result2) {
+                        app.audioDursPlayed.push(resultDur)
+                        app.uAudioIndex=indexToPlay
+                    });
+                }
+            });
+        }
+    }
+//    Text {
+//        id: info
+//        font.pixelSize: 30
+//        color: 'red'
+//        width: app.width*0.8
+//        wrapMode: Text.WordWrap
+//        z: modWhatsapp.z+100000
+//    }
     Shortcut{
         sequence: 'Esc'
         onActivated: Qt.quit()
