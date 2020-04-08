@@ -16,9 +16,9 @@ ApplicationWindow {
     visible: true
     width: 1280
     height: 500
-    x:0
-    y:0
-    //visibility:"Maximized"
+    //x:0
+    //y:0
+    visibility:"Maximized"
     title: 'WhatsappWeb Audio Speak'
     color: '#333'
     property string moduleName: 'wwas'
@@ -232,7 +232,7 @@ ApplicationWindow {
             if(app.uCant-1>app.uAudioIndex){
                 indexToPlay=app.audioDurs.indexOf(app.uDurPlaying)+1
             }
-            info.text+=' rep: '+indexToPlay+'\n'
+            //info.text+=' rep: '+indexToPlay+'\n'
             modWhatsapp.webEngineView.runJavaScript('document.getElementsByTagName(\'audio\')['+indexToPlay+'].duration', function(resultDur) {
                 if(resultDur!==app.uDurPlaying){
                     tResetAudioIndexPlaying.stop()
